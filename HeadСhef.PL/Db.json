@@ -1,0 +1,92 @@
+{
+  "Bakeries": [
+    {
+      "Name": "Bread",
+      "ProteinsPer100Grams": 7.7,
+      "FatsPer100Grams": 3.8,
+      "CarbohydratesPer100Grams": 47.8,
+      "CaloricPer100Grams": 262
+    }
+  ],
+  "VegetablesOils": [
+    {
+      "Name": "Olive oil",
+      "ProteinsPer100Grams": 0.0,
+      "FatsPer100Grams": 99.8,
+      "CarbohydratesPer100Grams": 0.0,
+      "CaloricPer100Grams": 898
+    }
+  ],
+  "MilkProducts": [
+    {
+      "Name": "Parmesan",
+      "ProteinsPer100Grams": 33.0,
+      "FatsPer100Grams": 28.0,
+      "CarbohydratesPer100Grams": 0.0,
+      "CaloricPer100Grams": 392
+    },
+    {
+      "Name": "Kefir",
+      "ProteinsPer100Grams": 2.8,
+      "FatsPer100Grams": 1.0,
+      "CarbohydratesPer100Grams": 4.0,
+      "CaloricPer100Grams": 40
+    }
+  ],
+  "Seasonings": [
+    {
+      "Name": "Garlic",
+      "ProteinsPer100Grams": 6.5,
+      "FatsPer100Grams": 0.5,
+      "CarbohydratesPer100Grams": 29.9,
+      "CaloricPer100Grams": 143
+    },
+    {
+      "Name": "Black pepper",
+      "ProteinsPer100Grams": 10.4,
+      "FatsPer100Grams": 3.3,
+      "CarbohydratesPer100Grams": 38.7,
+      "CaloricPer100Grams": 251
+    },
+    {
+      "Name": "Oregano",
+      "ProteinsPer100Grams": 11.0,
+      "FatsPer100Grams": 10.3,
+      "CarbohydratesPer100Grams": 21.6,
+      "CaloricPer100Grams": 306
+    },
+    {
+      "Name": "Salt",
+      "ProteinsPer100Grams": 0.0,
+      "FatsPer100Grams": 0.0,
+      "CarbohydratesPer100Grams": 0.0,
+      "CaloricPer100Grams": 0
+    },
+    {
+      "Name": "Mustard powder",
+      "ProteinsPer100Grams": 37.1,
+      "FatsPer100Grams": 11.1,
+      "CarbohydratesPer100Grams": 32.6,
+      "CaloricPer100Grams": 378
+    }
+  ],
+  "Vegetables": [
+    {
+      "Name": "Salad",
+      "ProteinsPer100Grams": 0.9,
+      "FatsPer100Grams": 0.1,
+      "CarbohydratesPer100Grams": 1.8,
+      "CaloricPer100Grams": 14
+    }
+  ],
+  "Meats": [
+    {
+      "Name": "Egg yolk",
+      "ProteinsPer100Grams": 16.2,
+      "FatsPer100Grams": 31.2,
+      "CarbohydratesPer100Grams": 1.0,
+      "CaloricPer100Grams": 352
+    }
+  ]
+}
+
