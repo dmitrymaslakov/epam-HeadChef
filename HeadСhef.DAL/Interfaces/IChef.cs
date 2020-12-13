@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using HeadСhef.DAL.Entities.Dishes;
 
 namespace HeadСhef.DAL.Interfaces
 {
@@ -8,6 +6,6 @@ namespace HeadСhef.DAL.Interfaces
     {
         string Name { get; set; }
 
-        IFoodstuff MakeDish(IDish dish, double grams);
+        IFoodstuff MakeDish(DishesIndex dish, double weight, IFoodstuff dishDressing = null);
     }
 }

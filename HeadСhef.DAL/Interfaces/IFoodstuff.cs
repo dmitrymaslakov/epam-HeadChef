@@ -6,11 +6,12 @@ namespace HeadСhef.DAL.Interfaces
 {
     public interface IFoodstuff
     {
-        string Name { get; set; }
-        double CaloricPer100Grams { get; set; }
-        double FatsPer100Grams { get; set; }
-        double ProteinsPer100Grams { get; set; }
-        double CarbohydratesPer100Grams { get; set; }
-        double Weight { get; set; }
+        string Name { get; }
+        string Category { get; }
+        double CaloricPer100Grams { get; }
+        double FatsPer100Grams { get; }
+        double ProteinsPer100Grams { get; }
+        double CarbohydratesPer100Grams { get; }
+        double Weight { get; }
     }
 }

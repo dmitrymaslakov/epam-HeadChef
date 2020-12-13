@@ -7,8 +7,8 @@ namespace HeadСhef.DAL.Interfaces
     public interface IDish
     {
         /// <summary>
-        /// Prepare a dish
+        /// Cooked dish
         /// </summary>
-        IFoodstuff Make(double gramm);
+        IFoodstuff GetCookedDish();
     }
 }

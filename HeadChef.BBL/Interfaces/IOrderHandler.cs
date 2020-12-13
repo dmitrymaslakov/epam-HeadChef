@@ -1,7 +1,6 @@
-﻿using HeadСhef.DAL.Interfaces;
-using System;
+﻿using HeadСhef.DAL.Entities.Dishes;
+using HeadСhef.DAL.Interfaces;
 using System.Collections.Generic;
-using System.Text;
 
 namespace HeadChef.BBL.Services
 {
@@ -10,7 +9,7 @@ namespace HeadChef.BBL.Services
         /// <summary>
         /// Handler the user's order.
         /// </summary>
-        IFoodstuff MakeDishBy(IChef chef, IDish dish, double grams);
+        IFoodstuff MakeDishBy(IChef chef, DishesIndex dish, double weight);
 
         /// <summary>
         /// Calculates the calorie content of the dish.

@@ -1,12 +1,12 @@
-﻿using HeadСhef.DAL.Interfaces;
+﻿using HeadСhef.DAL.Entities.Dishes;
+using HeadСhef.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace HeadСhef.PL
 {
-    public delegate IFoodstuff MakeDishOrderEventHandler(IChef chef, IDish dish, double grams);
+    public delegate IFoodstuff MakeDishOrderEventHandler(IChef chef, DishesIndex dish, double weight);
     public delegate double CalculateCaloricOrderEventHandler(IFoodstuff dish);
     public delegate IEnumerable<IFoodstuff> SortFoodstuffOrderEventHandler(IFoodstuff dish);
     public delegate IEnumerable<IFoodstuff> FindProductsOfDishOrderEventHandler(double lowerCaloricLimit,
@@ -23,9 +23,9 @@ namespace HeadСhef.PL
         /// <summary>
         /// Fire the event "MakeDishOrder".
         /// </summary>
-        public IFoodstuff OnMakeDishOrder(IChef chef, IDish dish, double grams)
+        public IFoodstuff OnMakeDishOrder(IChef chef, DishesIndex dish, double weight)
         {
-            var preparedDish = MakeDishOrder?.Invoke(chef, dish, grams);
+            var preparedDish = MakeDishOrder?.Invoke(chef, dish, weight);
 
             Console.WriteLine("Готово!");
 

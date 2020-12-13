@@ -1,20 +1,25 @@
-﻿using HeadСhef.DAL.Entities;
-using HeadСhef.DAL.Entities.Dishes;
+﻿using HeadСhef.DAL.Entities.Dishes;
+using HeadСhef.DAL.Helper;
 using HeadСhef.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace HeadChef.BBL.Services
 {
     public class OrderHandler : IOrderHandler
     {
-        public IFoodstuff MakeDishBy(IChef chef, IDish dish, double grams)
+        public IFoodstuff MakeDishBy(IChef chef, DishesIndex dish, double weight)
         {
             try
             {
-                return chef.MakeDish(dish, grams);
+                var sauceWeight =
+                    ProductCalculator.CalculateWeightOfProductInDish(
+                        weight, SaladData.GRAMS_OF_CAESAR_SAUCE_PER_100_GRAMS_OF_SALAD);
+
+                var saladDressing = chef.MakeDish(DishesIndex.CaesarSauce, sauceWeight);
+
+                return chef.MakeDish(dish, weight, saladDressing);
             }
             catch
             {

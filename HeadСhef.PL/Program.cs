@@ -2,9 +2,7 @@
 using HeadСhef.DAL.Entities;
 using HeadСhef.DAL.Entities.Dishes;
 using HeadСhef.DAL.Interfaces;
-using Newtonsoft.Json;
 using System;
-using System.IO;
 
 namespace HeadСhef.PL
 {
@@ -16,17 +14,6 @@ namespace HeadСhef.PL
         {
             try
             {
-                string path = "../../../Db.json";
-
-                Store store = null;
-
-                using (var r = new StreamReader(path))
-                {
-                    string json = r.ReadToEnd();
-
-                    store = JsonConvert.DeserializeObject<Store>(json);
-                }
-
                 var controller = new Controller();
 
                 controller.MakeDishOrder += _orderHandler.MakeDishBy;
@@ -50,7 +37,7 @@ namespace HeadСhef.PL
                         switch (key)
                         {
                             case "m":
-                                var preparedDish = CookSalad(controller, store);
+                                var preparedDish = CookSalad(controller);
 
                                 UserActions(controller, preparedDish);
 
@@ -155,7 +142,7 @@ namespace HeadСhef.PL
 
         }
 
-        private static IFoodstuff CookSalad(Controller controller, Store store)
+        private static IFoodstuff CookSalad(Controller controller)
         {
             try
             {
@@ -163,11 +150,11 @@ namespace HeadСhef.PL
 
                 var portion = Math.Abs(int.Parse(Console.ReadLine()));
 
-                var grams = PortionToGramm(portion);
+                var weight = PortionToGramm(portion);
 
                 var chefJamie = new Chef("Jamie");
 
-                var preparedDish = controller.OnMakeDishOrder(chefJamie, new CaesarSalad(store), grams);
+                var preparedDish = controller.OnMakeDishOrder(chefJamie, DishesIndex.CaesarSalad, weight);
 
                 return preparedDish;
             }
@@ -176,6 +163,7 @@ namespace HeadСhef.PL
                 throw;
             }
         }
+
         private static double PortionToGramm(int portions)
         {
             double onePortion = 150.0;
