@@ -1,6 +1,6 @@
 ﻿namespace HeadСhef.DAL.Helper
 {
-    public struct SauceData
+    public static class SauceData
     {
         public const double GRAMS_OF_EGG_YOLK_PER_100_GRAMS_OF_SAUCE = 15.1;
         public const double GRAMS_OF_MUSTARD_POWDER_PER_100_GRAMS_OF_SAUCE = 6.1;

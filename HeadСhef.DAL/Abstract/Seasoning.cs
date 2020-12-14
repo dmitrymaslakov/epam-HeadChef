@@ -8,7 +8,7 @@ namespace HeadСhef.DAL.Abstract
         {
         }
 
-        public override string Category => "Приправы";
+        public override sealed string Category => "Приправы";
         public override string Name => "Соль";
         public override double CaloricPer100Grams => 0.0;
         public override double FatsPer100Grams => 0.0;

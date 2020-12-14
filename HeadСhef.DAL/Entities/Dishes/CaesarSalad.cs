@@ -8,8 +8,10 @@ using System.Linq;
 
 namespace HeadСhef.DAL.Entities.Dishes
 {
-    public class CaesarSalad : Foodstuff, IDish
+    public class CaesarSalad : Foodstuff
     {
+        private readonly Dictionary<IFoodstuff, double> _proportions;
+
         public LactucaSativa Salad { get; private set; }
         public Parmesan Parmesan { get; private set; }
         public CiabattaBread Bread { get; private set; }
@@ -25,11 +27,22 @@ namespace HeadСhef.DAL.Entities.Dishes
         public override double ProteinsPer100Grams { get; }
         public override double CarbohydratesPer100Grams { get; }
 
-        public CaesarSalad(double weight, IEnumerable<IFoodstuff> ingredients, IFoodstuff dishDressing) : base(weight)
+        public CaesarSalad(double weight, IEnumerable<IFoodstuff> ingredients, CaesarSauce dishDressing) : base(weight)
         {
             MakeSalad(ingredients);
 
-            CaesarSauce = dishDressing as CaesarSauce;
+            CaesarSauce = dishDressing;
+
+            _proportions = new Dictionary<IFoodstuff, double> {
+                { Salad, SaladData.GRAMS_OF_SALAD_PER_100_GRAMS_OF_SALAD },
+                { Parmesan, SaladData.GRAMS_OF_PARMESAN_PER_100_GRAMS_OF_SALAD },
+                { Bread, SaladData.GRAMS_OF_BREAD_PER_100_GRAMS_OF_SALAD },
+                { Garlic, SaladData.GRAMS_OF_GARLIC_PER_100_GRAMS_OF_SALAD},
+                { OliveOil, SaladData.GRAMS_OF_OLIVE_OIL_PER_100_GRAMS_OF_SALAD },
+                { Salt, SaladData.GRAMS_OF_SALT_PER_100_GRAMS_OF_SALAD },
+                { BlackPepper, SaladData.GRAMS_OF_BLACK_PEPPER_PER_100_GRAMS_OF_SALAD },
+                { CaesarSauce, SaladData.GRAMS_OF_CAESAR_SAUCE_PER_100_GRAMS_OF_SALAD }
+            };
 
             CaloricPer100Grams = CalculateCaloricPer100GramsOfSalad();
 
@@ -42,158 +55,58 @@ namespace HeadСhef.DAL.Entities.Dishes
 
         private double CalculateCaloricPer100GramsOfSalad()
         {
-            var saladCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_SALAD_PER_100_GRAMS_OF_SALAD, Salad.CaloricPer100Grams);
-
-            var parmesanCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_PARMESAN_PER_100_GRAMS_OF_SALAD, Parmesan.CaloricPer100Grams);
-
-            var breadCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_BREAD_PER_100_GRAMS_OF_SALAD, Bread.CaloricPer100Grams);
-
-            var garlicCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_GARLIC_PER_100_GRAMS_OF_SALAD, Garlic.CaloricPer100Grams);
-
-            var oliveOilCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_OLIVE_OIL_PER_100_GRAMS_OF_SALAD, OliveOil.CaloricPer100Grams);
-
-            var saltCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_SALT_PER_100_GRAMS_OF_SALAD, Salt.CaloricPer100Grams);
-
-            var blackPepperCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_BLACK_PEPPER_PER_100_GRAMS_OF_SALAD, BlackPepper.CaloricPer100Grams);
-
-            var caesarSauceCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_CAESAR_SAUCE_PER_100_GRAMS_OF_SALAD, CaesarSauce.CaloricPer100Grams);
-
-            return saladCaloric + parmesanCaloric + breadCaloric + garlicCaloric + oliveOilCaloric +
-                saltCaloric + blackPepperCaloric + caesarSauceCaloric;
+            return _proportions
+                .Select(proportion => ProductCalculator.CalculateWeightOfProductInDish(
+                    proportion.Value, proportion.Key.CaloricPer100Grams))
+                .Sum();
         }
 
         private double CalculateFatsPer100GramsOfSalad()
         {
-            var saladFats = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_SALAD_PER_100_GRAMS_OF_SALAD, Salad.FatsPer100Grams);
-
-            var parmesanFats = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_PARMESAN_PER_100_GRAMS_OF_SALAD, Parmesan.FatsPer100Grams);
-
-            var breadFats = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_BREAD_PER_100_GRAMS_OF_SALAD, Bread.FatsPer100Grams);
-
-            var garlicFats = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_GARLIC_PER_100_GRAMS_OF_SALAD, Garlic.FatsPer100Grams);
-
-            var oliveOilFats = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_OLIVE_OIL_PER_100_GRAMS_OF_SALAD, OliveOil.FatsPer100Grams);
-
-            var saltFats = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_SALT_PER_100_GRAMS_OF_SALAD, Salt.FatsPer100Grams);
-
-            var blackPepperFats = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_BLACK_PEPPER_PER_100_GRAMS_OF_SALAD, BlackPepper.FatsPer100Grams);
-
-            var caesarSauceFats = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_CAESAR_SAUCE_PER_100_GRAMS_OF_SALAD, CaesarSauce.FatsPer100Grams);
-
-            return saladFats + parmesanFats + breadFats + garlicFats + oliveOilFats +
-                saltFats + blackPepperFats + caesarSauceFats;
+            return _proportions
+                .Select(proportion => ProductCalculator.CalculateWeightOfProductInDish(
+                    proportion.Value, proportion.Key.FatsPer100Grams))
+                .Sum();
         }
-        
+
         private double CalculateProteinsPer100GramsOfSalad()
         {
-            var saladProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_SALAD_PER_100_GRAMS_OF_SALAD, Salad.ProteinsPer100Grams);
-
-            var parmesanProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_PARMESAN_PER_100_GRAMS_OF_SALAD, Parmesan.ProteinsPer100Grams);
-
-            var breadProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_BREAD_PER_100_GRAMS_OF_SALAD, Bread.ProteinsPer100Grams);
-
-            var garlicProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_GARLIC_PER_100_GRAMS_OF_SALAD, Garlic.ProteinsPer100Grams);
-
-            var oliveOilProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_OLIVE_OIL_PER_100_GRAMS_OF_SALAD, OliveOil.ProteinsPer100Grams);
-
-            var saltProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_SALT_PER_100_GRAMS_OF_SALAD, Salt.ProteinsPer100Grams);
-
-            var blackPepperProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_BLACK_PEPPER_PER_100_GRAMS_OF_SALAD, BlackPepper.ProteinsPer100Grams);
-
-            var caesarSauceProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_CAESAR_SAUCE_PER_100_GRAMS_OF_SALAD, CaesarSauce.ProteinsPer100Grams);
-
-            return saladProteins + parmesanProteins + breadProteins + garlicProteins + oliveOilProteins +
-                saltProteins + blackPepperProteins + caesarSauceProteins;
+            return _proportions
+                .Select(proportion => ProductCalculator.CalculateWeightOfProductInDish(
+                    proportion.Value, proportion.Key.ProteinsPer100Grams))
+                .Sum();
         }
-        
+
         private double CalculateCarbohydratesPer100GramsOfSalad()
         {
-            var saladCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_SALAD_PER_100_GRAMS_OF_SALAD, Salad.CarbohydratesPer100Grams);
-
-            var parmesanCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_PARMESAN_PER_100_GRAMS_OF_SALAD, Parmesan.CarbohydratesPer100Grams);
-
-            var breadCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_BREAD_PER_100_GRAMS_OF_SALAD, Bread.CarbohydratesPer100Grams);
-
-            var garlicCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_GARLIC_PER_100_GRAMS_OF_SALAD, Garlic.CarbohydratesPer100Grams);
-
-            var oliveOilCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_OLIVE_OIL_PER_100_GRAMS_OF_SALAD, OliveOil.CarbohydratesPer100Grams);
-
-            var saltCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_SALT_PER_100_GRAMS_OF_SALAD, Salt.CarbohydratesPer100Grams);
-
-            var blackPepperCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_BLACK_PEPPER_PER_100_GRAMS_OF_SALAD, BlackPepper.CarbohydratesPer100Grams);
-
-            var caesarSauceCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                SaladData.GRAMS_OF_CAESAR_SAUCE_PER_100_GRAMS_OF_SALAD, CaesarSauce.CarbohydratesPer100Grams);
-
-            return saladCarbohydrates + parmesanCarbohydrates + breadCarbohydrates + garlicCarbohydrates + oliveOilCarbohydrates +
-                saltCarbohydrates + blackPepperCarbohydrates + caesarSauceCarbohydrates;
+            return _proportions
+                .Select(proportion => ProductCalculator.CalculateWeightOfProductInDish(
+                    proportion.Value, proportion.Key.CarbohydratesPer100Grams))
+                .Sum();
         }
 
         private void MakeSalad(IEnumerable<IFoodstuff> ingredients)
         {
             Salad = ingredients
-                .Where(f => f is LactucaSativa)
-                .FirstOrDefault() as LactucaSativa;
+                .FirstOrDefault(foodstuff => foodstuff.Name.Equals("Салат Айсберг")) as LactucaSativa;
 
             Parmesan = ingredients
-                .Where(f => f is Parmesan)
-                .FirstOrDefault() as Parmesan;
+                .FirstOrDefault(foodstuff => foodstuff.Name.Equals("Пармезан")) as Parmesan;
 
             Bread = ingredients
-                .Where(f => f is CiabattaBread)
-                .FirstOrDefault() as CiabattaBread;
+                 .FirstOrDefault(foodstuff => foodstuff.Name.Equals("Хлеб Чиабатта")) as CiabattaBread;
 
             Garlic = ingredients
-                .Where(f => f is Garlic)
-                .FirstOrDefault() as Garlic;
+                .FirstOrDefault(foodstuff => foodstuff.Name.Equals("Чеснок")) as Garlic;
 
             OliveOil = ingredients
-                .Where(f => f is OliveOil)
-                .FirstOrDefault() as OliveOil;
+                .FirstOrDefault(foodstuff => foodstuff.Name.Equals("Масло оливковое")) as OliveOil;
 
             Salt = ingredients
-                .Where(f => f is SeaSalt)
-                .FirstOrDefault() as SeaSalt;
+                .FirstOrDefault(foodstuff => foodstuff.Name.Equals("Соль морская")) as SeaSalt;
 
             BlackPepper = ingredients
-                .Where(f => f is BlackPepper)
-                .FirstOrDefault() as BlackPepper;
-        }
-
-        public IFoodstuff GetCookedDish()
-        {
-            return this;
+                .FirstOrDefault(foodstuff => foodstuff.Name.Equals("Черный перец")) as BlackPepper;
         }
     }
 }

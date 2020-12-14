@@ -8,7 +8,7 @@ namespace HeadСhef.DAL.Abstract
         {
         }
 
-        public override string Category => "Мясные продукты";
+        public override sealed string Category => "Мясные продукты";
         public override string Name => "Говядина";
         public override double CaloricPer100Grams => 187.0;
         public override double FatsPer100Grams => 12.4;

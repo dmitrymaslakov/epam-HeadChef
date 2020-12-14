@@ -27,13 +27,13 @@ namespace HeadСhef.DAL.Entities
 
                         IEnumerable<IFoodstuff> saladIngredients = GetSaladIngredients(weight, dish);
 
-                        return new CaesarSalad(weight, saladIngredients, dishDressing).GetCookedDish();
+                        return new CaesarSalad(weight, saladIngredients, dishDressing as CaesarSauce);
 
                     case DishesIndex.CaesarSauce:
 
                         IEnumerable<IFoodstuff> sauceIngredients = GetSauceIngredients(weight, dish);
 
-                        return new CaesarSauce(weight, sauceIngredients).GetCookedDish();
+                        return new CaesarSauce(weight, sauceIngredients);
 
                     default:
 

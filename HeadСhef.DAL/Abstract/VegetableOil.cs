@@ -8,7 +8,7 @@ namespace HeadСhef.DAL.Abstract
         {
         }
 
-        public override string Category => "Масло растительное";
+        public override sealed string Category => "Масло растительное";
         public override double CaloricPer100Grams => 900.0;
         public override double FatsPer100Grams => 99.9;
         public override double ProteinsPer100Grams => 0.0;

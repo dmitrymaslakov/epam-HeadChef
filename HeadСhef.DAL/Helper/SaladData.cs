@@ -1,6 +1,9 @@
-﻿namespace HeadСhef.DAL.Helper
+﻿using HeadСhef.DAL.Interfaces;
+using System.Collections.Generic;
+
+namespace HeadСhef.DAL.Helper
 {
-    public struct SaladData
+    public static class SaladData
     {
         public const double GRAMS_OF_SALAD_PER_100_GRAMS_OF_SALAD = 43.1;
         public const double GRAMS_OF_PARMESAN_PER_100_GRAMS_OF_SALAD = 10.8;

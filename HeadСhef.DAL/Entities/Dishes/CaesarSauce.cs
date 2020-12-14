@@ -7,8 +7,10 @@ using System.Linq;
 
 namespace HeadСhef.DAL.Entities.Dishes
 {
-    public class CaesarSauce : Foodstuff, IDish
+    public class CaesarSauce : Foodstuff
     {
+        private readonly Dictionary<IFoodstuff, double> _proportions;
+
         public EggYolk EggYolk { get; private set; }
         public MustardPowder MustardPowder { get; private set; }
         public Kefir Kefir { get; private set; }
@@ -26,6 +28,15 @@ namespace HeadСhef.DAL.Entities.Dishes
         {
             MakeSauce(ingredients);
 
+            _proportions = new Dictionary<IFoodstuff, double> {
+                { EggYolk, SauceData.GRAMS_OF_EGG_YOLK_PER_100_GRAMS_OF_SAUCE },
+                { MustardPowder, SauceData.GRAMS_OF_MUSTARD_POWDER_PER_100_GRAMS_OF_SAUCE },
+                { Kefir, SauceData.GRAMS_OF_KEFIR_PER_100_GRAMS_OF_SAUCE },
+                { OliveOil, SauceData.GRAMS_OF_OLIVE_OIL_PER_100_GRAMS_OF_SAUCE },
+                { Salt, SauceData.GRAMS_OF_SALT_PER_100_GRAMS_OF_SAUCE },
+                { Oregano, SauceData.GRAMS_OF_OREGANO_PER_100_GRAMS_OF_SAUCE }
+            };
+
             CaloricPer100Grams = CalculateCaloricPer100GramsOfSauce();
 
             FatsPer100Grams = CalculateFatsPer100GramsOfSauce();
@@ -37,127 +48,56 @@ namespace HeadСhef.DAL.Entities.Dishes
 
         private double CalculateCaloricPer100GramsOfSauce()
         {
-            var eggCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_EGG_YOLK_PER_100_GRAMS_OF_SAUCE, EggYolk.CaloricPer100Grams);
-
-            var powderCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_MUSTARD_POWDER_PER_100_GRAMS_OF_SAUCE, MustardPowder.CaloricPer100Grams);
-
-            var kefirCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_KEFIR_PER_100_GRAMS_OF_SAUCE, Kefir.CaloricPer100Grams);
-
-            var oliveOilCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_OLIVE_OIL_PER_100_GRAMS_OF_SAUCE, OliveOil.CaloricPer100Grams);
-
-            var saltCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_SALT_PER_100_GRAMS_OF_SAUCE, Salt.CaloricPer100Grams);
-
-            var oreganoCaloric = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_OREGANO_PER_100_GRAMS_OF_SAUCE, Oregano.CaloricPer100Grams);
-
-            return eggCaloric + powderCaloric + kefirCaloric + oliveOilCaloric + saltCaloric + oreganoCaloric;
+            return _proportions
+                .Select(proportion => ProductCalculator.CalculateWeightOfProductInDish(
+                    proportion.Value, proportion.Key.CaloricPer100Grams))
+                .Sum();
         }
 
         private double CalculateFatsPer100GramsOfSauce()
         {
-            var eggFats = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_EGG_YOLK_PER_100_GRAMS_OF_SAUCE, EggYolk.FatsPer100Grams);
-
-            var powderFats = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_MUSTARD_POWDER_PER_100_GRAMS_OF_SAUCE, MustardPowder.FatsPer100Grams);
-
-            var kefirFats = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_KEFIR_PER_100_GRAMS_OF_SAUCE, Kefir.FatsPer100Grams);
-
-            var oliveOilFats = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_OLIVE_OIL_PER_100_GRAMS_OF_SAUCE, OliveOil.FatsPer100Grams);
-
-            var saltFats = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_SALT_PER_100_GRAMS_OF_SAUCE, Salt.FatsPer100Grams);
-
-            var oreganoFats = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_OREGANO_PER_100_GRAMS_OF_SAUCE, Oregano.FatsPer100Grams);
-
-            return eggFats + powderFats + kefirFats + oliveOilFats + saltFats + oreganoFats;
+            return _proportions
+                .Select(proportion => ProductCalculator.CalculateWeightOfProductInDish(
+                    proportion.Value, proportion.Key.FatsPer100Grams))
+                .Sum();
         }
 
         private double CalculateProteinsPer100GramsOfSauce()
         {
-            var eggProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_EGG_YOLK_PER_100_GRAMS_OF_SAUCE, EggYolk.ProteinsPer100Grams);
-
-            var powderProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_MUSTARD_POWDER_PER_100_GRAMS_OF_SAUCE, MustardPowder.ProteinsPer100Grams);
-
-            var kefirProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_KEFIR_PER_100_GRAMS_OF_SAUCE, Kefir.ProteinsPer100Grams);
-
-            var oliveOilProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_OLIVE_OIL_PER_100_GRAMS_OF_SAUCE, OliveOil.ProteinsPer100Grams);
-
-            var saltProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_SALT_PER_100_GRAMS_OF_SAUCE, Salt.ProteinsPer100Grams);
-
-            var oreganoProteins = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_OREGANO_PER_100_GRAMS_OF_SAUCE, Oregano.ProteinsPer100Grams);
-
-            return eggProteins + powderProteins + kefirProteins + oliveOilProteins + saltProteins + oreganoProteins;
+            return _proportions
+                .Select(proportion => ProductCalculator.CalculateWeightOfProductInDish(
+                    proportion.Value, proportion.Key.ProteinsPer100Grams))
+                .Sum();
         }
 
         private double CalculateCarbohydratesPer100GramsOfSauce()
         {
-            var eggCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_EGG_YOLK_PER_100_GRAMS_OF_SAUCE, EggYolk.CarbohydratesPer100Grams);
-
-            var powderCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_MUSTARD_POWDER_PER_100_GRAMS_OF_SAUCE, MustardPowder.CarbohydratesPer100Grams);
-
-            var kefirCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_KEFIR_PER_100_GRAMS_OF_SAUCE, Kefir.CarbohydratesPer100Grams);
-
-            var oliveOilCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_OLIVE_OIL_PER_100_GRAMS_OF_SAUCE, OliveOil.CarbohydratesPer100Grams);
-
-            var saltCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_SALT_PER_100_GRAMS_OF_SAUCE, Salt.CarbohydratesPer100Grams);
-
-            var oreganoCarbohydrates = ProductCalculator.CalculateWeightOfProductInDish(
-                    SauceData.GRAMS_OF_OREGANO_PER_100_GRAMS_OF_SAUCE, Oregano.CarbohydratesPer100Grams);
-
-            return eggCarbohydrates + powderCarbohydrates + kefirCarbohydrates + oliveOilCarbohydrates + saltCarbohydrates + oreganoCarbohydrates;
+            return _proportions
+                .Select(proportion => ProductCalculator.CalculateWeightOfProductInDish(
+                    proportion.Value, proportion.Key.CarbohydratesPer100Grams))
+                .Sum();
         }
 
         private void MakeSauce(IEnumerable<IFoodstuff> ingredients)
         {
-
             EggYolk = ingredients
-                .Where(f => f is EggYolk)
-                .FirstOrDefault() as EggYolk;
+                .FirstOrDefault(foodstuff => foodstuff.Name.Equals("Куриный желток")) as EggYolk;
 
             MustardPowder = ingredients
-                .Where(f => f is MustardPowder)
-                .FirstOrDefault() as MustardPowder;
+                .FirstOrDefault(foodstuff => foodstuff.Name.Equals("Горчица")) as MustardPowder;
 
             Kefir = ingredients
-                .Where(f => f is Kefir)
-                .FirstOrDefault() as Kefir;
+                .FirstOrDefault(foodstuff => foodstuff.Name.Equals("Кефир")) as Kefir;
 
             OliveOil = ingredients
-                .Where(f => f is OliveOil)
-                .FirstOrDefault() as OliveOil;
+                .FirstOrDefault(foodstuff => foodstuff.Name.Equals("Масло оливковое")) as OliveOil;
 
             Salt = ingredients
-                .Where(f => f is SeaSalt)
-                .FirstOrDefault() as SeaSalt;
+                .FirstOrDefault(foodstuff => foodstuff.Name.Equals("Соль морская")) as SeaSalt;
 
             Oregano = ingredients
-                .Where(f => f is Oregano)
-                .FirstOrDefault() as Oregano;
-        }
+                .FirstOrDefault(foodstuff => foodstuff.Name.Equals("Орегано")) as Oregano;
 
-        public IFoodstuff GetCookedDish()
-        {
-            return this;
         }
     }
 }
