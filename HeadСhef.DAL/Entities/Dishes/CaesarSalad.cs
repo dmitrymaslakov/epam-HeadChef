@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace HeadСhef.DAL.Entities.Dishes
 {
-    public class CaesarSalad : Foodstuff
+    public class CaesarSalad : Dish
     {
         private readonly Dictionary<IFoodstuff, double> _proportions;
 
@@ -44,45 +44,13 @@ namespace HeadСhef.DAL.Entities.Dishes
                 { CaesarSauce, SaladData.GRAMS_OF_CAESAR_SAUCE_PER_100_GRAMS_OF_SALAD }
             };
 
-            CaloricPer100Grams = CalculateCaloricPer100GramsOfSalad();
+            CaloricPer100Grams = CalculateNutritionInformation(_proportions)["caloric"];
 
-            FatsPer100Grams = CalculateFatsPer100GramsOfSalad();
+            FatsPer100Grams = CalculateNutritionInformation(_proportions)["fats"];
 
-            ProteinsPer100Grams = CalculateProteinsPer100GramsOfSalad();
+            ProteinsPer100Grams = CalculateNutritionInformation(_proportions)["proteins"];
 
-            CarbohydratesPer100Grams = CalculateCarbohydratesPer100GramsOfSalad();
-        }
-
-        private double CalculateCaloricPer100GramsOfSalad()
-        {
-            return _proportions
-                .Select(proportion => ProductCalculator.CalculateWeightOfProductInDish(
-                    proportion.Value, proportion.Key.CaloricPer100Grams))
-                .Sum();
-        }
-
-        private double CalculateFatsPer100GramsOfSalad()
-        {
-            return _proportions
-                .Select(proportion => ProductCalculator.CalculateWeightOfProductInDish(
-                    proportion.Value, proportion.Key.FatsPer100Grams))
-                .Sum();
-        }
-
-        private double CalculateProteinsPer100GramsOfSalad()
-        {
-            return _proportions
-                .Select(proportion => ProductCalculator.CalculateWeightOfProductInDish(
-                    proportion.Value, proportion.Key.ProteinsPer100Grams))
-                .Sum();
-        }
-
-        private double CalculateCarbohydratesPer100GramsOfSalad()
-        {
-            return _proportions
-                .Select(proportion => ProductCalculator.CalculateWeightOfProductInDish(
-                    proportion.Value, proportion.Key.CarbohydratesPer100Grams))
-                .Sum();
+            CarbohydratesPer100Grams = CalculateNutritionInformation(_proportions)["carbohydrates"];
         }
 
         private void MakeSalad(IEnumerable<IFoodstuff> ingredients)
